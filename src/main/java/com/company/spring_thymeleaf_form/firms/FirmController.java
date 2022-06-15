@@ -1,11 +1,10 @@
 package com.company.spring_thymeleaf_form.firms;
 
+import com.company.spring_thymeleaf_form.os.Os;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 
 @Controller
 public class FirmController {
@@ -37,5 +36,21 @@ public class FirmController {
     public String deleteFirm(@RequestParam(name="id")Long id) {
         firmService.deleteById(id);
         return "redirect:/list_firms";
+    }
+
+    @GetMapping(value ="/edit_firm")
+    public String editFirm(Model model, @RequestParam(name="id")Long id) {
+        Firm firm = firmService.findById(id);
+        model.addAttribute("firm",firm);
+        return "edit_firm";
+    }
+
+    @PostMapping(value="/update_firm")
+    public String updateOs(Firm firm, Model model) {
+        Firm firmDb = firmService.findById(firm.getId());
+        firmDb.setName(firm.getName());
+        firmService.save(firmDb);
+        model.addAttribute("firms", firmService.findAll());
+        return "list_firms";
     }
 }

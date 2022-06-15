@@ -35,5 +35,23 @@ import org.springframework.web.bind.annotation.*;
             osService.deleteById(id);
             return "redirect:/list_os";
         }
+
+    @GetMapping(value ="/edit_os")
+    public String editOs(Model model, @RequestParam(name="id")Long id) {
+            Os os = osService.findById(id);
+        model.addAttribute("os",os);
+        return "edit_os";
+    }
+
+    @PostMapping(value="/update_os")
+    public String updateOs(Os os, Model model) {
+            Os osDb = osService.findById(os.getId());
+        osDb.setName(os.getName());
+        osDb.setDeveloper(os.getDeveloper());
+        //osService.deleteById(os.getId());
+        osService.save(osDb);
+        model.addAttribute("os", osService.findAll());
+        return "list_os";
+    }
     }
 

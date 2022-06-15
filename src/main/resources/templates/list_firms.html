@@ -20,7 +20,7 @@
             <tr th:each="firm: ${firms}">
                 <td th:utext="${firm.id}"></td>
                 <td th:utext="${firm.name}"></td>
-                <td><a th:href="@{/delete_firm(id=${firm.id})}">Delete</a></td>
+                <td><a th:href="@{/delete_firm(id=${firm.id})}">Delete</a>&nbsp<a th:href="@{/edit_firm(id=${firm.id})}">Edit</a></td>
             </tr>
         </tbody>
     </table>

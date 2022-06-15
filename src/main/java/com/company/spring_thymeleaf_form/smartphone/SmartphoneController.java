@@ -2,6 +2,7 @@ package com.company.spring_thymeleaf_form.smartphone;
 
 import com.company.spring_thymeleaf_form.firms.Firm;
 import com.company.spring_thymeleaf_form.firms.FirmService;
+import com.company.spring_thymeleaf_form.os.Os;
 import com.company.spring_thymeleaf_form.os.OsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -44,6 +45,30 @@ public class SmartphoneController {
     @RequestMapping(value = "/delete_smart", method = RequestMethod.GET)
     public String deleteSmartphone(@RequestParam(name="id")Long id) {
         smartphoneService.deleteById(id);
+        return "redirect:/list_smarts";
+    }
+
+    @GetMapping(value ="/edit_smart")
+    public String editSmart(Model model, @RequestParam(name="id")Long id) {
+        Smartphone smartphone = smartphoneService.findById(id);
+        model.addAttribute("smartphone",smartphone);
+        model.addAttribute("os",osService.findAll());
+        model.addAttribute("firms",firmService.findAll());
+        return "edit_smart";
+    }
+
+    @PostMapping(value="/update_smart")
+    public String updateSmart(Smartphone smartphone, Model model) {
+        Smartphone smartphoneDb = smartphoneService.findById(smartphone.getId());
+        //System.out.println(smartphone.getFirm());
+        //System.out.println(smartphoneDb.getFirm());
+        smartphoneDb.setName(smartphone.getName());
+        smartphoneDb.setFirm(smartphone.getFirm());
+        smartphoneDb.setOs(smartphone.getOs());
+        smartphoneDb.setSize(smartphone.getSize());
+        smartphoneDb.setColor(smartphone.getColor());
+        smartphoneService.save(smartphoneDb);
+        model.addAttribute("smartphones", osService.findAll());
         return "redirect:/list_smarts";
     }
 }
