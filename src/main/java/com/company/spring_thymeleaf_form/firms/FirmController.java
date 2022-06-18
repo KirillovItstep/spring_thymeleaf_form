@@ -6,6 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+
 @Controller
 public class FirmController {
 
@@ -24,15 +26,18 @@ public class FirmController {
         return "list_firms";
     }
 
-    @PostMapping(value="/save_firm")
-    public String saveFirm(Firm firm, Model model) {
+    @PostMapping(value="/add_firm")
+    public String saveFirm(Firm firm, Model model, HttpServletResponse response) {
         System.out.println(firm);
-        firmService.save(firm);
+        //Передать id в заголовке ответа
+        Firm newFirm = firmService.save(firm);
+        long id = newFirm.getId();
+        response.addHeader("id", String.valueOf(id));
         model.addAttribute("firms", firmService.findAll());
-        return "list_firms";
+        return "redirect:/list_firms";
     }
 
-    @RequestMapping(value = "/delete_firm", method = RequestMethod.GET)
+    @DeleteMapping(value = "/delete_firm")
     public String deleteFirm(@RequestParam(name="id")Long id) {
         firmService.deleteById(id);
         return "redirect:/list_firms";
@@ -45,8 +50,8 @@ public class FirmController {
         return "edit_firm";
     }
 
-    @PostMapping(value="/update_firm")
-    public String updateOs(Firm firm, Model model) {
+    @PutMapping(value="/update_firm")
+    public String updateFirm(Firm firm, Model model) {
         Firm firmDb = firmService.findById(firm.getId());
         firmDb.setName(firm.getName());
         firmService.save(firmDb);

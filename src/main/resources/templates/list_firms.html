@@ -20,7 +20,12 @@
             <tr th:each="firm: ${firms}">
                 <td th:utext="${firm.id}"></td>
                 <td th:utext="${firm.name}"></td>
-                <td><a th:href="@{/delete_firm(id=${firm.id})}">Delete</a>&nbsp<a th:href="@{/edit_firm(id=${firm.id})}">Edit</a></td>
+                <td>
+                    <form th:action="@{/delete_firm(id=${firm.id})}" th:method="delete" style="margin: 0; padding: 0;">
+                        <a href="#" onclick="this.closest('form').submit();return false;" style="display: inline;">Delete</a>
+                    </form>
+                    &nbsp
+                    <a th:href="@{/edit_firm(id=${firm.id})}">Edit</a></td>
             </tr>
         </tbody>
     </table>

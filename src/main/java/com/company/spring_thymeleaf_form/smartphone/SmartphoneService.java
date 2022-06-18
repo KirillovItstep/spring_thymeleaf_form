@@ -16,8 +16,8 @@ import java.util.List;
             return smartphoneRepository.findAll();
         }
 
-        public void save(Smartphone smartphone) {
-            smartphoneRepository.save(smartphone);
+        public Smartphone save(Smartphone smartphone) {
+            return smartphoneRepository.save(smartphone);
         }
 
         public Smartphone findById(Long id) {

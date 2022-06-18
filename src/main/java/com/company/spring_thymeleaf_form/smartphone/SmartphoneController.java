@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+
 
 @Controller
 public class SmartphoneController {
@@ -34,15 +36,19 @@ public class SmartphoneController {
         return "list_smarts";
     }
 
-    @PostMapping(value="/save_smart")
-    public String saveSmartphone(Smartphone smartphone, Model model) {
+    @PostMapping(value="/add_smart")
+    public String saveSmartphone(Smartphone smartphone, Model model, HttpServletResponse response) {
         System.out.println(smartphone);
+        //Передать id в заголовке ответа
+        Smartphone newSmartphone = smartphoneService.save(smartphone);
+        long id = newSmartphone.getId();
+        response.addHeader("id", String.valueOf(id));
         smartphoneService.save(smartphone);
         model.addAttribute("smartphones", smartphoneService.findAll());
         return "redirect:/list_smarts";
     }
 
-    @RequestMapping(value = "/delete_smart", method = RequestMethod.GET)
+    @DeleteMapping(value ="/delete_smart")
     public String deleteSmartphone(@RequestParam(name="id")Long id) {
         smartphoneService.deleteById(id);
         return "redirect:/list_smarts";
@@ -57,7 +63,7 @@ public class SmartphoneController {
         return "edit_smart";
     }
 
-    @PostMapping(value="/update_smart")
+    @PutMapping(value="/update_smart")
     public String updateSmart(Smartphone smartphone, Model model) {
         Smartphone smartphoneDb = smartphoneService.findById(smartphone.getId());
         //System.out.println(smartphone.getFirm());

@@ -16,7 +16,7 @@
 </head>
 <body>
 <div class="container mt-5">
-    <form method="post" th:action="@{/update_os}" th:object = "${os}">
+    <form th:method="PUT" th:action="@{/update_os}" th:object = "${os}">
     <div class="mb-3">
             <input type="text" id="id" th:field="*{id}" hidden>
             <label for="name" class="form-label">OS</label>

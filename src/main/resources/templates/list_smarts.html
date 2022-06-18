@@ -36,7 +36,11 @@
                     </label>
 
                 </td>
-                <td><a th:href="@{/delete_smart(id=${smartphone.id})}">Delete</a>&nbsp<a th:href="@{/edit_smart(id=${smartphone.id})}">Update</a></td>
+                <td>
+                    <form th:action="@{/delete_smart(id=${smartphone.id})}" th:method="delete">
+                        <a href="#" onclick="this.closest('form').submit();return false;" style="display: inline;">Delete</a>
+                    </form>
+                    &nbsp<a th:href="@{/edit_smart(id=${smartphone.id})}">Update</a></td>
             </tr>
         </tbody>
     </table>

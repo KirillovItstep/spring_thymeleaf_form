@@ -14,8 +14,8 @@ import java.util.List;
             return firmRepository.findAll();
         }
 
-        public void save(Firm firm) {
-            firmRepository.save(firm);
+        public Firm save(Firm firm) {
+            return firmRepository.save(firm);
         }
 
         public Firm findById(Long id) {

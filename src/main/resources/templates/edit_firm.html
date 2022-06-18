@@ -16,7 +16,7 @@
 </head>
 <body>
 <div class="container mt-5">
-    <form method="post" th:action="@{/update_firm}" th:object = "${firm}">
+    <form th:method="PUT" th:action="@{/update_firm}" th:object = "${firm}">
     <div class="mb-3">
             <input type="text" id="id" th:field="*{id}" hidden>
             <label for="name" class="form-label">Firm</label>

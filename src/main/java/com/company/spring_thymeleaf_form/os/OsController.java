@@ -1,9 +1,12 @@
 package com.company.spring_thymeleaf_form.os;
 
+import com.company.spring_thymeleaf_form.firms.Firm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
     public class OsController {
@@ -23,17 +26,19 @@ import org.springframework.web.bind.annotation.*;
             return "list_os";
         }
 
-        @PostMapping(value="/save_os")
-        public String saveOs(Os os, Model model) {
-            osService.save(os);
+        @PostMapping(value="/add_os")
+        public String saveOs(Os os, Model model, HttpServletResponse response) {
+            //Передать id в заголовке ответа
+            Os newOs = osService.save(os);
+            long id = newOs.getId();
+            response.addHeader("id", String.valueOf(id));
             model.addAttribute("os", osService.findAll());
-            return "list_os";
+            return "redirect:/list_os";
         }
 
-        @RequestMapping(value = "/delete_os", method = RequestMethod.GET)
-        public String deleteOs(@RequestParam(name="id")Long id) {
-            osService.deleteById(id);
-            return "redirect:/list_os";
+    @DeleteMapping(value = "/delete_os")
+        public String deleteOs(@RequestParam(name="id")Long id) { osService.deleteById(id);
+        return "redirect:/list_os";
         }
 
     @GetMapping(value ="/edit_os")
@@ -43,7 +48,7 @@ import org.springframework.web.bind.annotation.*;
         return "edit_os";
     }
 
-    @PostMapping(value="/update_os")
+    @PutMapping(value="/update_os")
     public String updateOs(Os os, Model model) {
             Os osDb = osService.findById(os.getId());
         osDb.setName(os.getName());

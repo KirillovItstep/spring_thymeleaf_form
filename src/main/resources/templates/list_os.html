@@ -21,7 +21,11 @@
                 <td th:utext="${osi.id}"></td>
                 <td th:utext="${osi.name}"></td>
                 <td th:utext="${osi.developer}"></td>
-                <td><a th:href="@{/delete_os(id=${osi.id})}">Delete</a>&nbsp<a th:href="@{/edit_os(id=${osi.id})}">Edit</a></td>
+                <td>
+                    <form th:action="@{/delete_os(id=${osi.id})}" th:method="delete">
+                        <a href="#" onclick="this.closest('form').submit();return false;" style="display: inline;">Delete</a>
+                    </form>
+                    &nbsp<a th:href="@{/edit_os(id=${osi.id})}">Edit</a></td>
 
             </tr>
         </tbody>

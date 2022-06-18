@@ -12,7 +12,7 @@
 <body>
 <div class="container mt-5">
     <h3>Add smartphone</h3>
-    <form method="post" th:action="@{/save_smart}" th:object = "${smartphone}">
+    <form method="post" th:action="@{/add_smart}" th:object = "${smartphone}">
     <div class="mb-3">
         <label for="name" class="form-label">Name</label>
         <input type="text" class="form-control" id="name" th:field="*{name}">

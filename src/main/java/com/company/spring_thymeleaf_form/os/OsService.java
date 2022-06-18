@@ -13,8 +13,8 @@ import java.util.List;
             return osRepository.findAll();
         }
 
-        public void save(Os os) {
-            osRepository.save(os);
+        public Os save(Os os) {
+           return osRepository.save(os);
         }
 
         public Os findById(Long id) {
