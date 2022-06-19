@@ -5,9 +5,11 @@ import com.company.spring_thymeleaf_form.firms.FirmService;
 import com.company.spring_thymeleaf_form.os.Os;
 import com.company.spring_thymeleaf_form.os.OsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -39,6 +41,9 @@ public class SmartphoneController {
     @PostMapping(value="/add_smart")
     public String saveSmartphone(Smartphone smartphone, Model model, HttpServletResponse response) {
         System.out.println(smartphone);
+        if (smartphone.getFirm()==null ||smartphone.getOs()==null)
+            throw new ResponseStatusException(
+                HttpStatus.NOT_FOUND, "The firm or OS is null");
         //Передать id в заголовке ответа
         Smartphone newSmartphone = smartphoneService.save(smartphone);
         long id = newSmartphone.getId();
